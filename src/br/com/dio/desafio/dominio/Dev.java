@@ -16,6 +16,10 @@ public class Dev {
     }
 
     public void progedir() {
+        progredir();
+    }
+
+    public void progredir() {
         Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
         if (conteudo.isPresent()) {
             this.conteudosConcluidos.add(conteudo.get());
@@ -30,6 +34,12 @@ public class Dev {
                 .stream()
                 .mapToDouble(Conteudo ::calcularXp)
                 .sum();
+    }
+
+    public double getProgresso() {
+        int total = this.conteudosConcluidos.size() + this.conteudosInscritos.size();
+        if (total == 0) return 0.0d;
+        return (this.conteudosConcluidos.size() * 100.0d) / total;
     }
 
     public String getNome() {
@@ -67,5 +77,16 @@ public class Dev {
     @Override
     public int hashCode() {
         return Objects.hash(nome, conteudosInscritos, conteudosConcluidos);
+    }
+
+    @Override
+    public String toString() {
+        return "Dev{" +
+                "nome='" + nome + '\'' +
+                ", inscritos=" + conteudosInscritos.size() +
+                ", concluidos=" + conteudosConcluidos.size() +
+                ", progresso=" + String.format("%.1f", getProgresso()) + "%" +
+                ", xpTotal=" + String.format("%.1f", calcularTotalXp()) +
+                '}';
     }
 }
